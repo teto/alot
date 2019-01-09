@@ -405,9 +405,12 @@ class CallCommand(Command):
                     if not getattr(hooks, k, None):
                         setattr(hooks, k, v)
 
+            logging.info("MATT: evaluating the command")
             t = eval(self.command)
             if asyncio.iscoroutine(t):
+                logging.info("command seems to be a coroutine")
                 await t
+
         except Exception as e:
             logging.exception(e)
             msg = 'an error occurred during execution of "%s":\n%s'
